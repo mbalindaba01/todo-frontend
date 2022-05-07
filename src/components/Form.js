@@ -1,23 +1,37 @@
-import React from "react"
+import React, { useState } from "react"
 
 
-class Form extends React.Component{
-    render(){
-        return (
-        <form className="ui form">
-            <div className="ui grid">
-                <div className="row">
-                    <div className="column five wide">
-                        <input type="text"/>
-                    </div>
-                    <div className="column one wide">
-                        <button type="submit">+</button>
-                    </div>
+const Form = ({ addTodo }) => {
+    const [inputValue, setInputValue] = useState('')
+    const handleInputChange = e => {
+        setInputValue(e.target.value)
+    }
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault()
+        if(inputValue.trim() === "") return
+        addTodo({title: inputValue, completed: false})
+        setInputValue("")
+    }
+    return (
+    <form className="ui form" onSubmit={handleFormSubmit}>
+        <div className="ui grid center aligned">
+            <div className="row">
+                <div className="column five wide">
+                    <input 
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        type="text" 
+                        placeholder="Add item"
+                    />
+                </div>
+                <div className="column one wide">
+                    <button type="submit" className="ui button circular icon green"><i className="plus icon white"></i></button>
                 </div>
             </div>
-        </form>
-        )
-    }
+        </div>
+    </form>
+    )
 }
 
 export default Form
